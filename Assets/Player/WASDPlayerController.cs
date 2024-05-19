@@ -114,6 +114,9 @@ public class WASDPlayerController : BasePlayerController {
         Debug.DrawRay(transform.position + Vector3.up * 0.01f, transform.rotation * Vector3.forward * 0.6f, Color.red);
         Debug.DrawRay(transform.position + Vector3.up * maxStepHeight, transform.rotation * Vector3.forward * 0.6f, Color.red);
         if(Physics.Raycast(transform.position + Vector3.up * 0.01f, transform.rotation * Vector3.forward, out hit, 0.6f, groundCheckLayerMask)) {
+            if(Mathf.Abs(Vector3.Dot(hit.normal, Vector3.up)) >= 0.2) {
+                return false;
+            }
             Interactable Interactable = hit.collider.GetComponent<Interactable>();
             if(Interactable && Interactable.grabbed) return false;
             if(Physics.Raycast(transform.position + Vector3.up * maxStepHeight, transform.rotation * Vector3.forward, 0.6f, groundCheckLayerMask)) {
@@ -133,7 +136,7 @@ public class WASDPlayerController : BasePlayerController {
             }
             currentVelocity += Vector3.down * gravity * Time.fixedDeltaTime;
         } else if(!jumping) {
-            currentVelocity.y = 0;
+            currentVelocity.y = -0.1f;
         }
         if(checkForStep() && moveInput.y > 0) {
             wasStep = true;

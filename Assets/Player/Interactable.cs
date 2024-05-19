@@ -30,11 +30,15 @@ public class Interactable : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         grabbed = true;
     }
-    public void drop()
+    public void drop(Vector3 throwV)
     {
         rb.useGravity = true;
         rb.mass = 1;
         grabbed = false;
         GetComponent<Collider>().material = normalPhysicsMat;
+        rb.velocity = transform.rotation * throwV;
+    }
+    public void drop() {
+        drop(Vector3.zero);
     }
 }
