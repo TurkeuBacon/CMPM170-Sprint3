@@ -30,7 +30,7 @@ public class BasePlayerController : MonoBehaviour
     protected bool isGrounded() {
         bool validHit = false;
         for(int i = 0; i < groundCheckDirections.Length; i++) {
-            Vector3 direction = groundCheckDirections[i];
+            Vector3 direction = transform.rotation * groundCheckDirections[i];
             Vector3 origin = transform.position + Vector3.up * 0.5f + direction * 0.4f;
             Debug.DrawRay(origin, direction * (groundCheckDistance + 0.1f), Color.red);
             RaycastHit hit;

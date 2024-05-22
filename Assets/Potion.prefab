@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5986863663212309507}
   - component: {fileID: 2271208553987127083}
   - component: {fileID: 15507340630992233}
+  - component: {fileID: -6779871894352138289}
   m_Layer: 6
   m_Name: Potion
   m_TagString: Untagged
@@ -119,6 +120,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabbedPhysicsMat: {fileID: 13400000, guid: c9437fed35e3e754395581e768045ddc, type: 2}
   grabbed: 0
+--- !u!114 &-6779871894352138289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3671316072321994542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fe65a94b8c8252a90b861b1bf56679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  invincibilityTime: 0
 --- !u!1001 &5476471095572440725
 PrefabInstance:
   m_ObjectHideFlags: 0

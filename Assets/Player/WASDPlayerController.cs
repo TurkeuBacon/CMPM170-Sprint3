@@ -10,20 +10,18 @@ using UnityEngine.UI;
     Only uses the mouse, with all instances of keyboard input existing
     solely for playtesting sessions and debuggig.
 
-    Created for the course "CSE 171: Game Design Studio I" at UCSC.
+    Created for the course "CMPM 171: Game Design Studio I" at UCSC.
 */
 
-[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
+[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(GameEntity))]
 public class WASDPlayerController : BasePlayerController {
 
     private Rigidbody rb;
-
-
     
     // MOVEMENT
     [Header("Movment")]
     public float walkingSpeed;
-    public float walkingAcceleration, walkingDeceleration, inAirDecelCoef;
+    public float runningSpeed, walkingAcceleration, walkingDeceleration, inAirDecelCoef;
     
     // JUMPING
     [Header("Jumping")]
@@ -33,7 +31,7 @@ public class WASDPlayerController : BasePlayerController {
     private bool jumping, wasStep;
     
     // USER INPUT
-    private bool jumpFlag;
+    private bool jumpFlag, runFlag;
     private Vector2 moveInput;
 
     private Vector3 startingPosition;
@@ -45,7 +43,7 @@ public class WASDPlayerController : BasePlayerController {
         Cursor.lockState = CursorLockMode.Locked;
         playerCamera = GetComponentInChildren<Camera>();
 
-        jumpFlag = false;
+        jumpFlag = runFlag = false;
         moveInput = Vector2.zero;
         startingPosition = transform.position;
     }
@@ -67,6 +65,12 @@ public class WASDPlayerController : BasePlayerController {
         if(Input.GetKeyDown(KeyCode.Q)) {
             Application.Quit();
         }
+        if(Input.GetKeyDown(KeyCode.LeftShift)) {
+            runFlag = true;
+        }
+        if(Input.GetKeyUp(KeyCode.LeftShift)) {
+            runFlag = false;
+        }
 
         updateCamera();
     }
@@ -86,12 +90,13 @@ public class WASDPlayerController : BasePlayerController {
         bool decelerateOverride = false;
         bool moving = moveInput.sqrMagnitude != 0;
         Debug.Log(moveInput);
+        float maxSpeed = runFlag ? runningSpeed : walkingSpeed;
         if(moving) {
             float lastMagnitude = currentVelocityXZ.magnitude;
             currentVelocityXZ += transform.rotation * new Vector3(moveInput.x, 0f, moveInput.y) * walkingAcceleration * Time.fixedDeltaTime;
-            if(lastMagnitude < walkingSpeed) {
-                if(currentVelocityXZ.magnitude > walkingSpeed) {
-                    currentVelocityXZ = currentVelocityXZ.normalized * walkingSpeed;
+            if(lastMagnitude < maxSpeed) {
+                if(currentVelocityXZ.magnitude > maxSpeed) {
+                    currentVelocityXZ = currentVelocityXZ.normalized * maxSpeed;
                 }
             } else {
                 decelerateOverride = true;
